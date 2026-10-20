@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GERALD.ANY — games and stuff by Gerald</title>
+    <meta name="description" content="">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22> G </text></svg>">
+
+    <!-- Google Fonts: Outfit & Fredoka & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        brand: ['"Outfit"', 'sans-serif'],
+                        playful: ['"Fredoka"', 'sans-serif'],
+                        body: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        canvas: '#F9F9F9',
+                        brandDark: '#18181b',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ========================================================
+       GLOBAL & CUSTOMIZABLE CARD VARIABLES (root card variables)
+       You can change ANY of these defaults here in :root,
+       or directly override them inline on the card element in HTML.
+       ======================================================== */
+        :root {
+            /* --- 1. SIZING & DIMENSIONS --- */
+            --card-width: 100%;
+            /* e.g. 100%, 360px, 420px, 30rem */
+            --card-max-width: 450px;
+            /* e.g. 100%, 450px, 600px */
+            --card-height: auto;
+            /* e.g. auto, 260px, 320px */
+            --card-min-height: 220px;
+            /* e.g. 200px, 240px, 280px */
+            --card-aspect-ratio: 16 /11;
+            /* e.g. 16/11, 4/3, 16/9, 1/1, auto */
+            --card-col-span: span 1;
+            /* Grid column span: span 1, span 2, span 3, or 1 / -1 */
+            --card-margin: 0;
+            /* e.g. 0, 0 auto (to center card when width is fixed) */
+
+            /* --- 2. BORDER, CORNERS & OUTLINE --- */
+            --card-border-width: 2.5px;
+            /* Border stroke thickness: 2px, 3px, 4px */
+            --card-border-color: #18181b;
+            /* Border stroke color: #18181b, #000000, #4f46e5 */
+            --card-border-style: solid;
+            /* Border style: solid, dashed, dotted, double */
+            --card-radius: 20px;
+            /* Corner radius: 14px, 20px, 28px, 9999px */
+
+            /* Optional Outer Outline */
+            --card-outline-width: 0px;
+            /* e.g. 0px, 2px, 4px */
+            --card-outline-color: transparent;
+            /* e.g. transparent, #18181b, #3b82f6 */
+            --card-outline-style: solid;
+            /* e.g. solid, dashed, dotted */
+            --card-outline-offset: 4px;
+            /* Distance from card border to outer outline */
+
+            /* --- 3. COLORS & BACKGROUND --- */
+            --card-bg-color: #FEF6D8;
+            /* Resting background color: e.g. #FEF6D8, #E8F4FD, #FFFFFF */
+            --card-bg-hover-color: #FEF6D8;
+            /* Background color on hover */
+            --card-border-hover-color: #000000;
+            /* Border color on hover */
+
+            /* --- 4. POP-UP ANIMATION & MICRO-INTERACTIONS (ON HOVER) --- */
+            --card-hover-lift: -8px;
+            /* How high the card pops up: e.g. -6px, -10px, -14px, 0px */
+            --card-hover-scale: 1.025;
+            /* Pop-up scale factor: e.g. 1.02, 1.04, 1.0 (no scale) */
+            --card-hover-rotate: 0deg;
+            /* Optional playful tilt on hover: e.g. 0deg, -1deg, 1.5deg */
+            --card-transition-duration: 0.28s;
+            /* Animation speed: e.g. 0.2s, 0.28s, 0.4s */
+            --card-transition-timing: cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Springy bounce easing curve */
+
+            /* --- 5. SHADOWS (RESTING, HOVER & CLICK) --- */
+            --card-shadow-base: 0 4px 0 rgba(24, 24, 27, 0.04), 0 2px 4px rgba(24, 24, 27, 0.02);
+            --card-shadow-hover: 0 20px 32px -8px rgba(24, 24, 27, 0.16), 0 8px 16px -4px rgba(24, 24, 27, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            --card-shadow-active: 0 8px 16px -2px rgba(24, 24, 27, 0.12);
+            --card-active-lift: -2px;
+            /* Position when clicked */
+            --card-active-scale: 1.01;
+            /* Scale when clicked */
+
+            /* --- 6. DECORATION & ACCENT CONTROLS --- */
+            --card-decoration-display: block;
+            /* Set to 'none' to hide potted plant, or 'block' */
+        }
+
+        /* Base Styling */
+        body {
+            background-color: #D6E6F2;
+            color: #18181b;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Neal.fun Inspired Brand Title */
+        .brand-title {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.035em;
+            font-weight: 800;
+            color: #111113;
+            user-select: none;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .brand-title:hover {
+            transform: scale(1.02);
+        }
+
+        /* ========================================================
+       PROJECT CARD: 100% Customizable via CSS Variables
+       ======================================================== */
+        .project-card {
+            /* Dimensions & Sizing */
+            width: var(--card-width);
+            max-width: var(--card-max-width);
+            height: var(--card-height);
+            min-height: var(--card-min-height);
+            aspect-ratio: var(--card-aspect-ratio);
+            grid-column: var(--card-col-span);
+            margin: var(--card-margin);
+
+            /* Border & Corner Radius */
+            border-width: var(--card-border-width);
+            border-style: var(--card-border-style);
+            border-color: var(--card-border-color);
+            border-radius: var(--card-radius);
+
+            /* External Outline */
+            outline-width: var(--card-outline-width);
+            outline-style: var(--card-outline-style);
+            outline-color: var(--card-outline-color);
+            outline-offset: var(--card-outline-offset);
+
+            /* Background */
+            background-color: var(--card-bg-color);
+
+            /* Resting Shadow */
+            box-shadow: var(--card-shadow-base);
+
+            /* Display & Mechanics */
+            position: relative;
+            display: block;
+            text-decoration: none;
+            overflow: visible;
+            /* Allows perched decorative items to rest on border */
+            cursor: pointer;
+
+            /* Pop-up animation physics & transitions */
+            transition: transform var(--card-transition-duration) var(--card-transition-timing),
+                box-shadow var(--card-transition-duration) var(--card-transition-timing),
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                outline-color 0.2s ease;
+        }
+
+        /* POP-UP & ELEVATED SHADOW ON HOVER (Fully Customizable) */
+        .project-card:hover {
+            /* Customizable Pop-up Lift, Scale and Tilt */
+            transform: translateY(var(--card-hover-lift)) scale(var(--card-hover-scale)) rotate(var(--card-hover-rotate));
+
+            /* Customizable Elevated Shadow */
+            box-shadow: var(--card-shadow-hover);
+
+            /* Hover border and background colors */
+            border-color: var(--card-border-hover-color);
+            background-color: var(--card-bg-hover-color);
+        }
+
+        .project-card:active {
+            transform: translateY(var(--card-active-lift)) scale(var(--card-active-scale));
+            box-shadow: var(--card-shadow-active);
+        }
+
+        /* Inner Container with Rounded Masking for future images */
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: calc(var(--card-radius) - var(--card-border-width));
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ========================================================
+       IMAGE HOLDER
+       To display an image, simply add: src="your-image.png"
+       When src is empty, it remains clean and blank.
+       ======================================================== */
+        .image-holder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: transparent;
+        }
+
+        .image-holder img {
+            width: 100%;
+            height: 100%;
+            object-fit: var(--card-img-fit, cover);
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hide broken image icon when src is blank */
+        .image-holder img:not([src]),
+        .image-holder img[src=""],
+        .image-holder img[src="#"] {
+            display: none;
+        }
+
+        /* Subtle blank placeholder indicator shown on hover */
+        .blank-placeholder-hint {
+            opacity: 0;
+            transform: scale(0.94);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+
+        .project-card:hover .blank-placeholder-hint {
+            opacity: 0.65;
+            transform: scale(1);
+        }
+
+        /* Perched Decorative Accents (Resting on Border) */
+        .perched-decoration {
+            display: var(--card-decoration-display, block);
+            position: absolute;
+            z-index: 20;
+            pointer-events: auto;
+            cursor: pointer;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.08));
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .perched-decoration:hover {
+            transform: translateY(-4px) scale(1.1) rotate(-3deg);
+        }
+
+        @keyframes gentleWobble {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-3px) rotate(1.5deg);
+            }
+        }
+
+        .idle-float {
+            animation: gentleWobble 4s ease-in-out infinite;
+        }
+
+        /* Subscribe Button Style */
+        .subscribe-btn {
+            border: 2px solid #18181b;
+            border-radius: 9999px;
+            background: #ffffff;
+            color: #18181b;
+            font-weight: 600;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 0 rgba(24, 24, 27, 0.06);
+        }
+
+        .subscribe-btn:hover {
+            background: #18181b;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px -3px rgba(24, 24, 27, 0.16);
+        }
+
+        .subscribe-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(24, 24, 27, 0.1);
+        }
+
+        /* Modal Backdrop & Animation */
+        .modal-backdrop {
+            background: rgba(18, 18, 20, 0.45);
+            backdrop-filter: blur(4px);
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-window {
+            border: 2.5px solid #18181b;
+            border-radius: 24px;
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-active .modal-window {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .toast-pill {
+            border: 2px solid #18181b;
+            box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.14);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-200 selection:text-neutral-900">
+
+    <!-- ========================================================
+       TOP HEADER & BRANDING
+       ======================================================== -->
+    <header class="w-full pt-10 pb-8 sm:pt-14 sm:pb-12 px-4 sm:px-8 max-w-6xl mx-auto relative">
+
+        <!-- Top-Right Newsletter Subscribe Button -->
+        <div class="sm:absolute top-8 right-6 lg:right-8 flex justify-end mb-6 sm:mb-0">
+            <button id="openSubscribeBtn"
+                class="subscribe-btn inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 text-xs sm:text-sm tracking-tight cursor-pointer"
+                aria-label="Subscribe for new posts">
+                <span class="text-base sm:text-lg leading-none">✉</span>
+                <span>Get new posts</span>
+            </button>
+        </div>
+
+        <!-- Center Logo & Subtitle -->
+        <div class="text-center flex flex-col items-center justify-center">
+            <a href="main.html"
+                class="inline-block group focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-800 rounded-lg">
+                <h1 class="brand-title text-4xl sm:text-5xl md:text-6xl tracking-tight leading-none mb-2.5">
+                    gerald.any
+                </h1>
+            </a>
+            <p class="text-neutral-500 font-medium text-sm sm:text-base tracking-normal max-w-md">
+                stuff by Gerrald
+            </p>
+        </div>
+
+    </header>
+
+    <!-- ========================================================
+       MAIN PROJECT GRID (3-Column System, Currently 1 Card) (screen grid)
+       ======================================================== -->
+    <main class="w-full flex-grow px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-16 sm:pb-24">
+
+        <!-- 3-Column Responsive Grid (Desktop: 3 cols, Tablet: 2 cols, Mobile: 1 col) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 lg:gap-8 pt-4">
+            <!--MAIN CARD-->
+            <a href="KasfloCalculator.html" id="kasfloCard" class="project-card group" aria-label="Kasflo Calculator">
+                <!-- Inner Card Content Area -->
+                <div class="card-inner">
+                    <div class="image-holder">
+                        <img src="Images\kasflo.jpg" alt="Kasflo Calculator Preview" class="card-img" />
+                    </div>
+                </div>
+            </a>
+
+            <a href="" id="kasfloCard" class="project-card group" aria-label="Kasflo Calculator">
+                <!-- Inner Card Content Area -->
+                <div class="card-inner">
+                    <div class="image-holder">
+                        <img src="" alt="Kasflo Calculator Preview" class="card-img" />
+                    </div>
+                </div>
+            </a>
+
+
+
+        </div>
+
+    </main>
+
+    <!-- ========================================================
+       FOOTER
+       ======================================================== -->
+    <footer class="w-full border-t border-neutral-200/80 py-8 px-6 text-center text-xs sm:text-sm text-neutral-400">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 font-medium text-neutral-500">
+                <span class="font-bold text-neutral-700">gerald.any</span>
+                <span>•</span>
+                <span>stuff by Gerrald</span>
+            </div>
+            <div class="flex items-center gap-2 text-neutral-400">
+                <span>All you need - right where you are</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================================
+       NEWSLETTER SUBSCRIBE MODAL (Interactive "Get new posts")
+       ======================================================== -->
+    <div id="subscribeModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden" role="dialog"
+        aria-modal="true" aria-labelledby="subscribeModalTitle">
+        <!-- Backdrop overlay -->
+        <div id="modalOverlay" class="modal-backdrop absolute inset-0 cursor-pointer"></div>
+
+        <!-- Modal Content Window -->
+        <div class="modal-window relative bg-white w-full max-w-md p-6 sm:p-8 z-10">
+            <!-- Close Button -->
+            <button id="closeSubscribeBtn"
+                class="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full hover:bg-neutral-100 text-neutral-500 hover:text-neutral-900 transition-colors cursor-pointer"
+                aria-label="Close modal">
+                ✕
+            </button>
+
+            <div class="text-center mb-6">
+                <div
+                    class="w-14 h-14 rounded-2xl border-2 border-neutral-900 bg-amber-100 flex items-center justify-center text-2xl mx-auto mb-4 shadow-[2px_2px_0px_#18181b]">
+                    ✉
+                </div>
+                <h2 id="subscribeModalTitle" class="text-2xl font-bold font-brand text-neutral-900 tracking-tight">
+                    Get New Posts
+                </h2>
+                <p class="text-neutral-500 text-sm mt-1.5 leading-relaxed">
+                    Be the first to explore new interactive games, toys, and experiments by Gerald. Zero spam.
+                </p>
+            </div>
+
+            <form id="subscribeForm" class="space-y-4">
+                <div>
+                    <label for="subscriberEmail"
+                        class="block text-xs font-bold uppercase tracking-wider text-neutral-600 mb-1.5 text-left">
+                        Email Address
+                    </label>
+                    <input type="email" id="subscriberEmail" name="email" required placeholder="gerald@example.com"
+                        class="w-full px-4 py-3 rounded-xl border-2 border-neutral-900 focus:outline-none focus:ring-2 focus:ring-amber-300 text-sm text-neutral-900 placeholder:text-neutral-400 font-medium transition-all">
+                </div>
+
+                <button type="submit"
+                    class="w-full py-3.5 px-4 bg-neutral-900 hover:bg-black text-white font-bold rounded-xl border-2 border-neutral-900 transition-all transform active:scale-[0.98] shadow-[3px_3px_0px_#f59e0b] cursor-pointer">
+                    Subscribe for Updates
+                </button>
+            </form>
+
+            <p class="text-[11px] text-neutral-400 text-center mt-4">
+                You can unsubscribe at any time with one click.
+            </p>
+        </div>
+    </div>
+
+    <!-- Toast Alert -->
+    <div id="toastNotification"
+        class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div
+            class="toast-pill bg-white text-neutral-900 px-5 py-3.5 rounded-2xl flex items-center gap-3 font-medium text-sm">
+            <span class="text-lg">🎉</span>
+            <span id="toastMessage">Subscribed successfully!</span>
+        </div>
+    </div>
+
+    <!-- ========================================================
+       VANILLA JAVASCRIPT LOGIC
+       ======================================================== -->
+    <script>
+        // --- Newsletter Modal Logic ---
+        const subscribeModal = document.getElementById('subscribeModal');
+        const openSubscribeBtn = document.getElementById('openSubscribeBtn');
+        const closeSubscribeBtn = document.getElementById('closeSubscribeBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const subscribeForm = document.getElementById('subscribeForm');
+        const subscriberEmail = document.getElementById('subscriberEmail');
+
+        function openModal() {
+            subscribeModal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                subscribeModal.classList.add('modal-active');
+            });
+            subscriberEmail.focus();
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            subscribeModal.classList.remove('modal-active');
+            setTimeout(() => {
+                subscribeModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 200);
+        }
+
+        openSubscribeBtn.addEventListener('click', openModal);
+        closeSubscribeBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+
+        // Subscribe form submission simulation
+        subscribeForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = subscriberEmail.value;
+            if (email) {
+                closeModal();
+                subscriberEmail.value = '';
+                showToast(`Awesome! ${email} has been subscribed to GERALD.ANY updates.`);
+            }
+        });
+
+        // --- Toast Notification Logic ---
+        const toast = document.getElementById('toastNotification');
+        const toastMessage = document.getElementById('toastMessage');
+        let toastTimeout;
+
+        function showToast(msg) {
+            clearTimeout(toastTimeout);
+            toastMessage.textContent = msg;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 4000);
+        }
+
+        // Global ESC key listener to dismiss open modals
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>
